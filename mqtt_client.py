@@ -36,7 +36,7 @@ for i in range(8):
 
 def on_connect(client, userdata, flags, rc):
     client.subscribe(mqtt_output_topic + '+')
-    print("MQTT Connected, waiting for Topics at", mqtt_output_topic)
+    print("MQTT Connected, waiting for Topics at '{}'".format(mqtt_output_topic))
 
 def on_message(client, userdata, msg):
     print("Received: topic='{}' payload='{}'".format(msg.topic, str(msg.payload)))
@@ -79,7 +79,7 @@ def publish_inout_state(client, piface_chip):
             if pin_state == 1:
                 state_text = "ON"
             client.publish(topic, state_text)
-            print("Publish", topic, state_text)
+            print("[Loop] Publish topic='{}' payload='{}'".format(topic, state_text))
         for topic, pin in input_topics.items():
             pin_state = piface_chip.input_pins[pin].value
             if in_states[pin] != pin_state:
@@ -88,8 +88,8 @@ def publish_inout_state(client, piface_chip):
             if pin_state == 1:
                 state_text = "ON"
             client.publish(topic, state_text)
-            print("Publish", topic, state_text)
-        time.sleep(30)
+            print("[Loop] Publish topic='{}' payload='{}'".format(topic, state_text))
+        time.sleep(60)
         
 if __name__ == "__main__":
     client.on_connect = on_connect
