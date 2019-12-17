@@ -34,3 +34,20 @@ as user pi:
 `@reboot  sleep 60 && /usr/bin/screen -dmS py_mqtt python /home/pi/mqtt.py`
 
 
+## MQTT structure
+
+```
+winden/
+  <hostname>/
+    piface/
+      in/
+        <port>		Values: "ON" or "OFF"
+      out/
+        <port>		Values: "ON" or "OFF"
+```
+
+## settings in iobroker:
+
+**Instanzen** -> mqtt-client.0 -> zusätzl. Subscriptions: `winden/#`
+
+Damit der Weg iobroker -> piface funktioniert, muss unter **Objekte** `mqtt-client.0.winden.<hostname>.piface.out` unter Einstellung der Haken bei **publish** gesetzt werden.
