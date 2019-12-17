@@ -18,5 +18,16 @@ change `/usr/lib/python2.7/dist-packages/pifacecommon/spi.py` to 15000 HZ (see h
         speed_hz=ctypes.c_uint32(15000)
     )
 	
+## checkout
 
-	
+wget -O mqtt.py "https://raw.githubusercontent.com/ckarrie/piface-mqtt/master/mqtt_client.py"
+
+## make permanent
+
+as user pi:
+
+`crontab -e`
+
+`@reboot  sleep 60 && /usr/bin/screen -dmS py_mqtt python /home/pi/mqtt.py`
+
+
