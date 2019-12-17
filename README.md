@@ -51,3 +51,5 @@ winden/
 **Instanzen** -> mqtt-client.0 -> zusätzl. Subscriptions: `winden/#`
 
 Damit der Weg iobroker -> piface funktioniert, muss unter **Objekte** `mqtt-client.0.winden.<hostname>.piface.out` unter Einstellung der Haken bei **publish** gesetzt werden.
+
+[Imgur](https://imgur.com/R0b1sYs)
