@@ -45,7 +45,7 @@ def on_message(client, userdata, msg):
         if str(msg.payload) in ['ON', '1', 'true']:
             pifacedigital.output_pins[pin].turn_on()
             out_states[pin] = 1
-            #client.publish(mqtt_output_state_topic + str(pin), "ON")
+            #client.publish(mqtt_output_state_topic + str(pin), "true")
         elif str(msg.payload) in ['OFF', '0', 'false']:
             pifacedigital.output_pins[pin].turn_off()
             out_states[pin] = 0
@@ -54,21 +54,21 @@ def on_message(client, userdata, msg):
     #if msg.topic in output_state_topics.keys():
     #    pin = output_topics[msg.topic]
     #    pin_state = out_states[pin]
-    #    state_text = "OFF"
+    #    state_text = "false"
     #    if pin_state == 1:
-    #        state_text = "ON"
+    #        state_text = "true"
     #    client.publish(mqtt_input_topic + '{}'.format(event.pin_num), state_text)
     
 def switch_pressed(event):
     #event.chip.output_pins[event.pin_num].turn_on()
     in_states[event.pin_num] = 1
-    client.publish(mqtt_input_topic + '{}'.format(event.pin_num), "ON")
+    client.publish(mqtt_input_topic + '{}'.format(event.pin_num), "true")
 
 
 def switch_unpressed(event):
     #event.chip.output_pins[event.pin_num].turn_off()
     in_states[event.pin_num] = 0
-    client.publish(mqtt_input_topic + '{}'.format(event.pin_num), "OFF")
+    client.publish(mqtt_input_topic + '{}'.format(event.pin_num), "false")
 
 
 def publish_inout_state(client, piface_chip):
