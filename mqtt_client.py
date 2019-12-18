@@ -42,11 +42,11 @@ def on_message(client, userdata, msg):
     print("Received: topic='{}' payload='{}'".format(msg.topic, str(msg.payload)))
     if msg.topic in output_topics.keys():
         pin = output_topics[msg.topic]
-        if str(msg.payload) in ['ON', '1']:
+        if str(msg.payload) in ['ON', '1', 'true']:
             pifacedigital.output_pins[pin].turn_on()
             out_states[pin] = 1
             #client.publish(mqtt_output_state_topic + str(pin), "ON")
-        elif str(msg.payload) in ['OFF', '0']:
+        elif str(msg.payload) in ['OFF', '0', 'false']:
             pifacedigital.output_pins[pin].turn_off()
             out_states[pin] = 0
             #client.publish(mqtt_output_state_topic + str(pin), "OFF")
@@ -75,18 +75,18 @@ def publish_inout_state(client, piface_chip):
     while True:
         for topic, pin in output_topics.items():
             pin_state = out_states[pin]
-            state_text = "OFF"
+            state_text = "false"
             if pin_state == 1:
-                state_text = "ON"
+                state_text = "true"
             client.publish(topic, state_text)
             print("[Loop] Publish topic='{}' payload='{}'".format(topic, state_text))
         for topic, pin in input_topics.items():
             pin_state = piface_chip.input_pins[pin].value
             if in_states[pin] != pin_state:
                 in_states[pin] = pin_state
-            state_text = "OFF"
+            state_text = "false"
             if pin_state == 1:
-                state_text = "ON"
+                state_text = "true"
             client.publish(topic, state_text)
             print("[Loop] Publish topic='{}' payload='{}'".format(topic, state_text))
         time.sleep(60)
