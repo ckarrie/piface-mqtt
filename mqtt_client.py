@@ -3,12 +3,14 @@ import socket
 import paho.mqtt.client as mqtt
 import thread
 import time
+import datetime
 
 hostname = socket.gethostname()
 
 mqtt_topic = 'winden/{}/piface/'.format(hostname)
 mqtt_input_topic = '{}in/'.format(mqtt_topic)
 mqtt_output_topic = '{}out/'.format(mqtt_topic)
+mqtt_device_topic = '{}infos/'.format(mqtt_topic)
 #mqtt_output_state_topic = '{}state/out/'.format(mqtt_topic)
 #mqtt_input_state_topic = '{}state/in/'.format(mqtt_topic)
 
@@ -89,7 +91,8 @@ def publish_inout_state(client, piface_chip):
                 state_text = "true"
             client.publish(topic, state_text)
             print("[Loop] Publish topic='{}' payload='{}'".format(topic, state_text))
-        time.sleep(60)
+        client.publish(mqtt_device_topic + 'datetime', datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+        time.sleep(20)
         
 if __name__ == "__main__":
     client.on_connect = on_connect
