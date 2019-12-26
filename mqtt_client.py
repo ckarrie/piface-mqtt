@@ -85,8 +85,6 @@ def publish_homeassistant(client):
                 "sw_version": "1"
             }, 
             "state_topic": mqtt_input_topic + str(input_nr), #"winden/pipool/piface/in/5", 
-            "state_on": "true", 
-            "state_off": "false", 
             "payload_on": "true", 
             "payload_off": "false",
             "device_class": "power",
