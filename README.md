@@ -22,7 +22,16 @@ change `/usr/lib/python2.7/dist-packages/pifacecommon/spi.py` to 15000 HZ (see h
 
 ```
 cd /home/pi/
-wget -O mqtt.py "https://raw.githubusercontent.com/ckarrie/piface-mqtt/master/mqtt_client.py"
+mkdir ~/src/
+cd ~/src/
+git clone https://github.com/ckarrie/piface-mqtt
+ln -s /home/pi/src/piface-mqtt/mqtt_client.py /home/pi/mqtt.py
+```
+
+## update source
+```
+cd ~/src/
+git pull
 ```
 
 ## make permanent
