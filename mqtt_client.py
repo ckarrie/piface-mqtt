@@ -41,9 +41,9 @@ for i in range(8):
 #    input_state_topics[mqtt_input_state_topic + str(i)] = i
 
 def publish_homeassistant(client):
-    homeassistant_topic = "homeassistant/switch/{}/sw{}/config"
+    homeassistant_switch_topic = "homeassistant/switch/{}/sw{}/config"
     for switch_port in range(8):
-        topic = homeassistant_topic.format(hostname, switch_port)
+        topic = homeassistant_switch_topic.format(hostname, switch_port)
         payload = {
             "name": "{} Switch {}".format(hostname, switch_port), 
             "unique_id": "{}-sw{}".format(hostname, switch_port), 
@@ -66,12 +66,40 @@ def publish_homeassistant(client):
             "icon": "mdi:lightbulb-on"
         }
         client.publish(topic, json.dumps(payload))
-        print("- published", topic, payload)
+        print("[publish_homeassistant] published", topic)
+    # Device classes: https://developers.home-assistant.io/docs/en/entity_binary_sensor.html#available-device-classes
+    homeassistant_binary_sensor_topic = "homeassistant/binary_sensor/{}/bs{}/config"
+    for input_nr in range(8):
+        topic = homeassistant_binary_sensor_topic.format(hostname, input_nr)
+        payload = {
+            "name": "{} Input {}".format(hostname, input_nr), 
+            "unique_id": "{}-bs{}".format(hostname, input_nr), 
+            "device": {
+                "identifiers": hostname + "-wlan", 
+                "connections": [
+                    ["mac", mac_address]
+                ], 
+                "manufacturer": "Raspberry Pi Foundation", 
+                "model": "Raspberry Pi 1", 
+                "name": hostname, 
+                "sw_version": "1"
+            }, 
+            "state_topic": mqtt_input_topic + str(input_nr), #"winden/pipool/piface/in/5", 
+            "state_on": "true", 
+            "state_off": "false", 
+            "payload_on": "true", 
+            "payload_off": "false",
+            "device_class": "power",
+            "icon": "mdi:electric-switch"
+        }
+        client.publish(topic, json.dumps(payload))
+        print("[publish_homeassistant] published", topic)
+        
 
 def on_connect(client, userdata, flags, rc):
     client.subscribe(mqtt_output_topic + '+')
     print("MQTT Connected, waiting for Topics at '{}'".format(mqtt_output_topic))
-    publish_homeassistant(client)
+    #publish_homeassistant(client)
 
 def on_message(client, userdata, msg):
     print("Received: topic='{}' payload='{}'".format(msg.topic, str(msg.payload)))
@@ -131,7 +159,7 @@ def publish_homeassistant_discovery(client):
     while True:
         publish_homeassistant(client)
         print("[Loop] Publish publish_homeassistant for discovery")
-        time.sleep(10)
+        time.sleep(600)
         
 if __name__ == "__main__":
     client.on_connect = on_connect
