@@ -139,7 +139,7 @@ if __name__ == "__main__":
     client.connect("192.168.178.56", 1883, 60)
     client.loop_start()
     thread.start_new_thread(publish_inout_state, (client, pifacedigital))
-    thread.start_new_thread(publish_homeassistant_discovery, (client))
+    thread.start_new_thread(publish_homeassistant_discovery, (client,))
 
     listener = pifacedigitalio.InputEventListener(chip=pifacedigital)
     for i in range(4):
