@@ -66,6 +66,7 @@ def publish_homeassistant(client):
             "icon": "mdi:lightbulb-on"
         }
         client.publish(topic, payload)
+        print("- published", topic, payload)
 
 def on_connect(client, userdata, flags, rc):
     client.subscribe(mqtt_output_topic + '+')
