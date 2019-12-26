@@ -72,3 +72,9 @@ Einstellungen -> Integrationen -> Plus-Button:
 - Haken bei "Suche"
 
 Hinweis: ich habe sämtliche manuelle MQTT-Einträge in der *.homeassistant/configuration.yaml* entfernt
+
+[Imgur](https://imgur.com/CNGcHDi)
+![Instanzen](https://i.imgur.com/CNGcHDi.png)
+
+[Imgur](https://imgur.com/pMCjYdf)
+![Instanzen](https://i.imgur.com/pMCjYdf.png)
