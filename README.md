@@ -63,3 +63,12 @@ Damit der Weg iobroker -> piface funktioniert, muss unter **Objekte** `mqtt-clie
 
 [Imgur](https://imgur.com/R0b1sYs)
 ![Instanzen](https://i.imgur.com/R0b1sYs.png)
+
+## settings in home-assistant.io
+
+Einstellungen -> Integrationen -> Plus-Button:
+
+- MQTT Borker Daten eingeben
+- Haken bei "Suche"
+
+Hinweis: ich habe sämtliche manuelle MQTT-Einträge in der *.homeassistant/configuration.yaml* entfernt
