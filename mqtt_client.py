@@ -65,7 +65,7 @@ def publish_homeassistant(client):
             "payload_off": "false",
             "icon": "mdi:lightbulb-on"
         }
-        client.publish(topic, payload)
+        client.publish(topic, json.dumps(payload))
         print("- published", topic, payload)
 
 def on_connect(client, userdata, flags, rc):
@@ -130,7 +130,8 @@ def publish_inout_state(client, piface_chip):
 def publish_homeassistant_discovery(client):
     while True:
         publish_homeassistant(client)
-        time.sleep(600)
+        print("[Loop] Publish publish_homeassistant for discovery")
+        time.sleep(10)
         
 if __name__ == "__main__":
     client.on_connect = on_connect
