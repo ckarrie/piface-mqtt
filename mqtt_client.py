@@ -88,7 +88,7 @@ def publish_homeassistant(client):
             "payload_on": "true", 
             "payload_off": "false",
             "device_class": "power",
-            "icon": "mdi:electric-switch"
+            #"icon": "mdi:electric-switch"
         }
         client.publish(topic, json.dumps(payload))
         print("[publish_homeassistant] published", topic)
