@@ -4,8 +4,12 @@ import paho.mqtt.client as mqtt
 import thread
 import time
 import datetime
+import json
+import uuid
+import re
 
 hostname = socket.gethostname()
+mac_address = ':'.join(re.findall('..', '%012x' % uuid.getnode()))
 
 mqtt_topic = 'winden/{}/piface/'.format(hostname)
 mqtt_input_topic = '{}in/'.format(mqtt_topic)
@@ -36,9 +40,37 @@ for i in range(8):
 #for i in range(8):
 #    input_state_topics[mqtt_input_state_topic + str(i)] = i
 
+def publish_homeassistant(client):
+    homeassistant_topic = "homeassistant/switch/{}/sw{}/config"
+    for switch_port in range(8):
+        topic = homeassistant_topic.format(hostname, switch_port)
+        payload = {
+            "name": "{} Switch {}".format(hostname, switch_port), 
+            "unique_id": "{}-sw{}".format(hostname, switch_port), 
+            "device": {
+                "identifiers": hostname + "-wlan", 
+                "connections": [
+                    ["mac", mac_address]
+                ], 
+                "manufacturer": "Raspberry Pi Foundation", 
+                "model": "Raspberry Pi 1", 
+                "name": hostname, 
+                "sw_version": "1"
+            }, 
+            "state_topic": mqtt_output_topic + str(switch_port), #"winden/pipool/piface/out/5", 
+            "command_topic": mqtt_output_topic + str(switch_port), 
+            "state_on": "true", 
+            "state_off": "false", 
+            "payload_on": "true", 
+            "payload_off": "false",
+            "icon": "mdi:lightbulb-on"
+        }
+        client.publish(topic, payload)
+
 def on_connect(client, userdata, flags, rc):
     client.subscribe(mqtt_output_topic + '+')
     print("MQTT Connected, waiting for Topics at '{}'".format(mqtt_output_topic))
+    publish_homeassistant(client)
 
 def on_message(client, userdata, msg):
     print("Received: topic='{}' payload='{}'".format(msg.topic, str(msg.payload)))
