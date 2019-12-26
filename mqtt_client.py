@@ -127,12 +127,18 @@ def publish_inout_state(client, piface_chip):
         client.publish(mqtt_device_topic + 'datetime', datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
         time.sleep(20)
         
+def publish_homeassistant_discovery(client):
+    while True:
+        publish_homeassistant(client)
+        time.sleep(600)
+        
 if __name__ == "__main__":
     client.on_connect = on_connect
     client.on_message = on_message
     client.connect("192.168.178.56", 1883, 60)
     client.loop_start()
     thread.start_new_thread(publish_inout_state, (client, pifacedigital))
+    thread.start_new_thread(publish_homeassistant_discovery, (client))
 
     listener = pifacedigitalio.InputEventListener(chip=pifacedigital)
     for i in range(4):
