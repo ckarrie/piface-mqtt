@@ -8,6 +8,8 @@ import json
 import uuid
 import re
 
+MQTT_BROKER_HOST = '192.168.178.71'
+
 hostname = socket.gethostname()
 mac_address = ':'.join(re.findall('..', '%012x' % uuid.getnode()))
 
@@ -162,7 +164,7 @@ def publish_homeassistant_discovery(client):
 if __name__ == "__main__":
     client.on_connect = on_connect
     client.on_message = on_message
-    client.connect("192.168.178.56", 1883, 60)
+    client.connect(MQTT_BROKER_HOST, 1883, 60)
     client.loop_start()
     thread.start_new_thread(publish_inout_state, (client, pifacedigital))
     thread.start_new_thread(publish_homeassistant_discovery, (client,))
