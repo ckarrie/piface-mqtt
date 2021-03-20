@@ -1,3 +1,19 @@
+"""
+sudo raspi-config:
+- setup Hostname
+- enable SPI
+
+sudo apt install python-pip
+sudo apt install screen
+sudo pip install pifacecommon
+sudo pip install pifacedigitalio
+sudo pip install paho-mqtt
+
+Enable via cron:
+crontab -e
+@reboot  sleep 60 && /usr/bin/screen -dmS py_mqtt python /home/pi/mqtt.py
+
+"""
 import pifacedigitalio
 import socket
 import paho.mqtt.client as mqtt
