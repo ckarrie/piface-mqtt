@@ -1,5 +1,12 @@
 # piface-mqtt
 
+**OBSOLETE** - use https://github.com/ckarrie/ckw-ha-mqtt/ insted!
+**OBSOLETE** - use https://github.com/ckarrie/ckw-ha-mqtt/ insted!
+**OBSOLETE** - use https://github.com/ckarrie/ckw-ha-mqtt/ insted!
+
+
+# Archive of piface-mqtt
+
 ## requirements
 
 `sudo apt-get install screen python-pip python-pifacedigitalio`
