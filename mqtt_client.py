@@ -3,11 +3,11 @@ sudo raspi-config:
 - setup Hostname
 - enable SPI
 
-sudo apt install python-pip
+sudo apt install python3-pip
 sudo apt install screen
-sudo pip install pifacecommon
-sudo pip install pifacedigitalio
-sudo pip install paho-mqtt
+sudo pip3 install pifacecommon
+sudo pip3 install pifacedigitalio
+sudo pip3 install paho-mqtt
 
 Enable via cron:
 crontab -e
@@ -17,7 +17,7 @@ crontab -e
 import pifacedigitalio
 import socket
 import paho.mqtt.client as mqtt
-import thread
+import _thread
 import time
 import datetime
 import json
@@ -182,8 +182,8 @@ if __name__ == "__main__":
     client.on_message = on_message
     client.connect(MQTT_BROKER_HOST, 1883, 60)
     client.loop_start()
-    thread.start_new_thread(publish_inout_state, (client, pifacedigital))
-    thread.start_new_thread(publish_homeassistant_discovery, (client,))
+    _thread.start_new_thread(publish_inout_state, (client, pifacedigital))
+    _thread.start_new_thread(publish_homeassistant_discovery, (client,))
 
     listener = pifacedigitalio.InputEventListener(chip=pifacedigital)
     for i in range(4):
